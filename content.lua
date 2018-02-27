@@ -1,3 +1,5 @@
+file_comment = {}
+
 local license = string.format("%20s", "LICENSE: ")
 local author = string.format("%20s", "Author ")
 local version = string.format("%20s", "Version: ")
@@ -5,11 +7,11 @@ local createTime = string.format("%20s", "CreateTime: ")
 local lastUpdate = string.format("%20s", "LastUpdate: ")
 local desc = string.format("%20s", "Desc: ")
 
-local lua_headline = '---------------------------------------------------------------'
+local lua_headline = '---------------------------------------------'
 local lua_bodyprefix = '--  '
 
-local normal_headline = '/****************************************************************'
-local normal_endline = '****************************************************************/'
+local normal_headline = '/*******************************************'
+local normal_endline = '*******************************************/'
 local normal_bodyprefix = "**  "
 -- /**/
 -- //*/
@@ -18,7 +20,6 @@ local sh_healine = '############################################'
 local sh_bodyprefix = "##  "
 local script_prefix = "#! /usr/bin/bash"
 
-file_comment = {}
 
 function init_bash_file_comment()
 	file_comment["head"] = sh_healine
@@ -70,12 +71,15 @@ end
 function insert_file_comment()
 	local curBuf = vim.api.nvim_get_current_buf()
 	local now = os.date("%Y-%m-%d %H:%M:%S")
-	vim.api.nvim_buf_set_lines(curBuf, 0, 0, {file_comment["end"]})
-	vim.api.nvim_buf_set_lines(curBuf, 0, 0, {file_comment["desc"]})
-	vim.api.nvim_buf_set_lines(curBuf, 0, 0, {file_comment["lastUpdate"]} .. now)
-	vim.api.nvim_buf_set_lines(curBuf, 0, 0, {file_comment["createTime"]} .. now)
-	vim.api.nvim_buf_set_lines(curBuf, 0, 0, {file_comment["version"]})
-	vim.api.nvim_buf_set_lines(curBuf, 0, 0, {file_comment["author"] .. Author})
-	vim.api.nvim_buf_set_lines(curBuf, 0, 0, {file_comment["license"]})
-	vim.api.nvim_buf_set_lines(curBuf, 0, 0, {file_comment["head"]})
+	vim.api.nvim_buf_set_lines(curBuf, 0, 0, false, {file_comment["end"]})
+	vim.api.nvim_buf_set_lines(curBuf, 0, 0, false, {file_comment["desc"]})
+	vim.api.nvim_buf_set_lines(curBuf, 0, 0, false, {file_comment["lastUpdate"]} .. now)
+	vim.api.nvim_buf_set_lines(curBuf, 0, 0, false, {file_comment["createTime"]} .. now)
+	vim.api.nvim_buf_set_lines(curBuf, 0, 0, false, {file_comment["version"]})
+	vim.api.nvim_buf_set_lines(curBuf, 0, 0, false, {file_comment["author"]})
+	vim.api.nvim_buf_set_lines(curBuf, 0, 0, false, {file_comment["license"]})
+	vim.api.nvim_buf_set_lines(curBuf, 0, 0, false, {file_comment["head"]})
 end
+
+init_lua_file_comment()
+insert_file_comment()
