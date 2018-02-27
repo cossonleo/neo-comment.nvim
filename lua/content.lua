@@ -7,7 +7,6 @@
 --        Desc: 
 --------------------------------------------------------------------------------
 
-local file_comment = {}
 
 local license = string.format("%12s", "LICENSE: ")
 local author = string.format("%12s", "Author: ")
@@ -29,6 +28,7 @@ local sh_healine = '############################################################
 local sh_bodyprefix = "##  "
 local script_prefix = "#! /usr/bin/bash"
 
+local file_comment = {}
 
 local function init_bash_file_comment()
 	file_comment["head"] = sh_healine
@@ -78,7 +78,7 @@ local function update_last_time()
 	end
 end
 
-local function insert_file_comment()
+local function insert_comment()
 	local curBuf = vim.api.nvim_get_current_buf()
 	local now = os.date("%Y-%m-%d %H:%M:%S")
 	vim.api.nvim_buf_set_lines(curBuf, 0, 0, false, file_comment["end"])
@@ -95,7 +95,7 @@ local normalft = {c = 1, cpp = 1, h = 1, hpp = 1, go = 1, java = 1, cs = 1, rust
 local shft = {sh = 1, python = 1}
 local luaft = {lua = 1}
 
-function file_insert_name()
+local function init()
 	local curBuf = vim.api.nvim_get_current_buf()
 	local ft = vim.api.nvim_buf_get_option(curBuf, "ft")
 	if normalft[ft] == 1
@@ -107,10 +107,20 @@ function file_insert_name()
 	elseif luaft[ft] == 1
 	then
 		init_lua_file_comment()
-	else
-		return
 	end
-	insert_file_comment()
 end
 
-file_insert_name()
+local function insert_file_name()
+	init()
+	insert_comment()
+end
+
+local function update_last_update()
+	init()
+	update_last_time()
+end
+
+return {
+	insert_file_name, 
+	update_last_update,
+}
