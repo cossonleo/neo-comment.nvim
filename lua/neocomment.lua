@@ -83,8 +83,7 @@ local function update_last_time()
 	for l = 1, lcount, 1 do
 		line = vim.api.nvim_buf_get_lines(curBuf, l, l + 1, false)[1]
 		res = string.match(line, file_comment["lastUpdate"])
-		if res ~= nil 
-		then
+		if res ~= nil then
 			vim.api.nvim_buf_set_lines(curBuf, l, l + 1, false, { file_comment["lastUpdate"] .. os.date("%Y-%m-%d %H:%M:%S") })
 			break
 		end
@@ -112,17 +111,13 @@ local vimft = { vim = 1 }
 local function init()
 	local curBuf = vim.api.nvim_get_current_buf()
 	local ft = vim.api.nvim_buf_get_option(curBuf, "ft")
-	if normalft[ft] == 1
-	then
+	if normalft[ft] == 1 then
 		init_normal_file_comment()
-	elseif shft[ft] == 1
-	then
+	elseif shft[ft] == 1 then
 		init_bash_file_comment()
-	elseif luaft[ft] == 1
-	then
+	elseif luaft[ft] == 1 then
 		init_lua_file_comment()
-	elseif vimft[ft] == 1
-	then
+	elseif vimft[ft] == 1 then
 		init_vim_file_comment()
 	end
 end
